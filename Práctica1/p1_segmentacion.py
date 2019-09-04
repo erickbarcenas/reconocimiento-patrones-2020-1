@@ -76,9 +76,9 @@ def region_growing(img, seed):
                 miny = coord[1] if coord[1]<miny else miny
                 maxx = coord[0] if coord[0]>maxx else maxx
                 maxy = coord[1] if coord[1]>maxy else maxy
-                total_px += 1
-
+                
                 if not coord in processed:
+                    total_px += 1
                     lista.append(coord)
                 processed.append(coord)
         lista.pop(0)
@@ -96,7 +96,7 @@ def onmouseclick(event):
         textstr = '\n'.join((
             'Ancho: %.1f mm' % (dim_img[1]*0.5),
             'Alto: %.1f mm' % (dim_img[0]*0.5),
-            'Área: %.2f mm\u00b2' % (area_img*0.5**2)))
+            'Área: %.2f mm\u00b2' % (area_img*0.25)))
         props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
         text_box.set_text(textstr)
         fig1.canvas.draw()
