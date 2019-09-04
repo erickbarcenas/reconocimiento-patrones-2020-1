@@ -12,7 +12,7 @@ import scipy.io as spio
 import matplotlib.pyplot as plt
 
 #%%
-midbrain = spio.loadmat('.\\Midbrain.mat')
+midbrain = spio.loadmat('./Midbrain.mat')
 
 #%%
 img_midbrain = np.array(midbrain['midbrain'])
@@ -107,20 +107,7 @@ plt.title('Imagen umbralizada')
 plt.imshow(img_bin, cmap='gray')
 plt.show()
 
-#%%
-# Obtener la plantilla
-template = cv2.imread('./template2.png')
-template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
-plt.title('Template')
-plt.imshow(template, cmap='gray')
-plt.show()
-
-#%%
-result = cv2.matchTemplate(image = img_bin, templ = template, method=cv2.TM_CCOEFF_NORMED)
-result = np.abs(result)**3
-val, result = cv2.threshold(result, 0.01, 0, cv2.THRESH_TOZERO)
-result8 = cv2.normalize(result,None,0,255,cv2.NORM_MINMAX,cv2.CV_8U)
-plt.imshow(result8, cmap='gray')
+cv2.imwrite('./imagen_preprocesada.bmp', img_bin)
 
 #%%
 """ 
