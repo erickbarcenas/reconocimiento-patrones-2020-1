@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 #%%
 # Usar region growing para obtener la región deseada
+# Implementación actual: https://stackoverflow.com/questions/43923648/region-growing-python
+# Implementación a futuro: http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARBLE/medium/segment/recurse.htm
 def obtener_8_vecinos(x, y, shape):
     out = []
     maxx = shape[1]-1
@@ -58,12 +60,12 @@ def region_growing(img, seed):
     maxx = 0
     maxy = 0
     total_px = 0
-    list = []
+    lista = []
     outimg = np.zeros_like(img)
-    list.append((seed[0], seed[1]))
+    lista.append((seed[0], seed[1]))
     processed = []
-    while(len(list) > 0):
-        pix = list[0]
+    while(len(lista) > 0):
+        pix = lista[0]
         outimg[pix[0], pix[1]] = 255
         for coord in obtener_8_vecinos(pix[0], pix[1], img.shape):
             if img[coord[0], coord[1]] != 0:
@@ -77,9 +79,9 @@ def region_growing(img, seed):
                 total_px += 1
 
                 if not coord in processed:
-                    list.append(coord)
+                    lista.append(coord)
                 processed.append(coord)
-        list.pop(0)
+        lista.pop(0)
     print('Termina el proceso...')
     dimx = maxx-minx
     dimy = maxy-miny
