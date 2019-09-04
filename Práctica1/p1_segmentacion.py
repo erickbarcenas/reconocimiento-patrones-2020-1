@@ -97,7 +97,6 @@ def onmouseclick(event):
             'Ancho: %.1f mm' % (dim_img[1]*0.5),
             'Alto: %.1f mm' % (dim_img[0]*0.5),
             'Área: %.2f mm\u00b2' % (area_img*0.25)))
-        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
         text_box.set_text(textstr)
         fig1.canvas.draw()
 
