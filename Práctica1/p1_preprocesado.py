@@ -108,12 +108,3 @@ plt.imshow(img_bin, cmap='gray')
 plt.show()
 
 cv2.imwrite('./imagen_preprocesada.bmp', img_bin)
-
-#%%
-""" 
-# Suavizar bordes
-img_suav = cv2.GaussianBlur(img_eq,(3,3),0)
-plt.title('Imagen suavizada')
-plt.imshow(img_suav, cmap='gray')
-
-"""
