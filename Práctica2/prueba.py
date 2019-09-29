@@ -49,21 +49,14 @@ nieve = np.array([0., 1., 1., 1.])
 tierra = np.array([0.5, 0.5, 0.5, 1.])
 nube = np.array([1., 1., 1., 1.])
 
-#nuevos_colores = np.zeros(shape=(256, 4))
-#div = 256/6.
-#nuevos_colores[:np.round(div), :]=sombra
-#nuevos_colores[np.round(div)+1:np.round(div*2), :]=sombra_sa
-#nuevos_colores[np.round(div*2)+1:np.round(div*3), :]=nieve
-#nuevos_colores[np.round(div*3)+1:np.round(div*4), :]=tierra
-#nuevos_colores[np.round(div*4+1):, :]=tierra
 nuevos_colores = np.zeros(shape=(n_clases, 4))
 div = 256/6.
-nuevos_colores[0, :]=sombra
-nuevos_colores[1, :]=sombra_sa
-nuevos_colores[2, :]=agua
-nuevos_colores[3, :]=nieve
-nuevos_colores[4, :]=tierra
-nuevos_colores[5, :]=nube
+nuevos_colores[0]=sombra
+nuevos_colores[1]=sombra_sa
+nuevos_colores[2]=agua
+nuevos_colores[3]=nieve
+nuevos_colores[4]=tierra
+nuevos_colores[5]=nube
 custom_cm = ListedColormap(nuevos_colores) 
 
 #%%
@@ -76,23 +69,11 @@ for i, img in enumerate(imgs):
     axs[0].set_title('Imagen %d' %i)
     axs[1].set_title('Resultados')
     patches = [ mpatches.Patch(color=nuevos_colores[i], label=clases[i]) for i in range(len(clases)) ]
-    # put those patched as legend-handles into the legend
     plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0. )
-    #cbar = fig.colorbar(imsh, ticks=list(modelo['clases'].keys()))
-    #cbar.ax.set_yticklabels(list(modelo['clases'].values())) 
     plt.show()
-
+    
 #%%
 np.save('./Dataset/test/predicciones', pred_y)
 #%%
 for i, path in enumerate(path_datos_prueba):
     plt.imsave(path[:-9]+'pred.png', pred_y[i], cmap=custom_cm, vmin=0, vmax=6)
-#%%
-#for i, img in enumerate(imgs):
-#    fig, axs = plt.subplots(2,2)
-#    for b1 in range(2):
-#        for b2 in range(2):
-#            axs[b1, b2].imshow(datos_prueba[i,:,:,b1+b2], cmap='gray')
-#            axs[b1, b2].axis('off')
-#            axs[b1, b2].set_title('Banda %d' % (b1+b2))
-#    plt.show()
