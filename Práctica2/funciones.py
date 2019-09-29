@@ -38,3 +38,27 @@ def obtenerMatricesCovarianzas(datos_x, datos_y, medias,clases, prob_clases):
         covarianzas[k]/=(prob_clases[k]*total_datos)
     return covarianzas
 
+def disc_bayes(x, m, S, Pk):
+    temp = np.matrix(x-m)
+    S = np.matrix(S)
+    temp2 = np.matmul(temp, S)
+    temp3 = np.matmul(temp2, temp.T).item()
+    disc = -(1.0/2.0)*temp3-(1.0/2.0)*np.log(np.linalg.det(S))+np.log(Pk)
+    #print(disc)
+    return disc.item()
+
+def predecir(datos_x, modelo):
+    datos_shape = datos_x.shape
+    #datos_x.reshape(datos_shape[0]*datos_shape[1], datos_shape[2])
+    prediccion_y = np.empty(datos_shape).astype(np.uint8)
+    discr = np.empty(len(modelo['clases'])).astype(np.float64)
+    for i in range(datos_shape[0]):
+        for j in range(datos_shape[1]):
+            for k in modelo['clases']:
+                x=datos_x[i,j]
+                m=modelo['medias'][k]
+                S=modelo['covarianzas'][k]
+                pk=modelo['prob_a_priori'][k]
+                discr[k] = disc_bayes(x, m, S, pk)
+            prediccion_y[i,j] = discr.argmax()
+    return prediccion_y
