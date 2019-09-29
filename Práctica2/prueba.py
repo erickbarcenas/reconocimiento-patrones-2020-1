@@ -76,4 +76,4 @@ for i, img in enumerate(imgs):
 np.save('./Dataset/test/predicciones', pred_y)
 #%%
 for i, path in enumerate(path_datos_prueba):
-    plt.imsave(path[:-9]+'pred.png', pred_y[i], cmap=custom_cm, vmin=0, vmax=6)
+    plt.imsave(path[:-8]+'pred.png', pred_y[i], cmap=custom_cm, vmin=0, vmax=6)

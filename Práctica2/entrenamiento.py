@@ -8,6 +8,7 @@ from funciones import obtenerProbAPriori, obtenerMatricesMedias, obtenerMatrices
 #%%
 path_datos_x = glob.glob('./Dataset/Train/*data.tif')
 #%%
+# https://www.usgs.gov/land-resources/nli/landsat/spatial-procedures-automated-removal-cloud-and-shadow-sparcs-validation
 datos_x  = np.array([np.dstack(np.array(rasterio.open(path).read())) for path in path_datos_x])
 #datos_x = datos_x[:,:,:,0:5]
 datos_x = datos_x[:,:,:,0:5]/65536.0
