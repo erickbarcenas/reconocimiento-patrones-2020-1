@@ -32,8 +32,9 @@ def obtenerMatricesCovarianzas(datos_x, datos_y, medias,clases, prob_clases):
         for x in range(datos_shape[1]):
             for y in range(datos_shape[2]):
                 k = datos_y[i_img, x, y]
-                m_temp = datos_x[i_img, x, y]-medias[k]
-                covarianzas[k]+=(m_temp*np.transpose(m_temp))
+                m_temp = np.matrix(datos_x[i_img, x, y]-medias[k])
+                covarianzas[k]+=np.matmul(m_temp.T, m_temp)
     for k, clase in enumerate(clases):
         covarianzas[k]/=(prob_clases[k]*total_datos)
     return covarianzas
+
