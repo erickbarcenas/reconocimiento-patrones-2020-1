@@ -1,9 +1,8 @@
+# -*- coding: utf-8 -*-
 #%%
 import rasterio
 import numpy as np
-import matplotlib.pyplot as plt
 import glob
-import cv2
 import scipy.io
 from funciones import obtenerProbAPriori, obtenerMatricesMedias, obtenerMatricesCovarianzas
 #%%
@@ -39,4 +38,14 @@ probabilidades = obtenerProbAPriori(datos_y, n_clases)
 medias = obtenerMatricesMedias(datos_x, datos_y, clases, probabilidades)
 
 #%%
-#covarianzas = obtenerMatricesCovarianzas(datos_x, datos_y, medias, clases, probabilidades)
+covarianzas = obtenerMatricesCovarianzas(datos_x, datos_y, medias, clases, probabilidades)
+
+#%%
+modelo = {
+        'clases' : clases,
+        'prob_a_priori' : probabilidades,
+        'medias' : medias,
+        'covarianzas' : covarianzas
+        }
+
+np.save('./modelo', modelo)

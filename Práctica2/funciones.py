@@ -23,3 +23,17 @@ def obtenerMatricesMedias(datos_x, datos_y, clases, prob_clases):
     for k, clase in enumerate(clases):
         medias[k]/=(prob_clases[k]*total_datos)
     return medias
+
+def obtenerMatricesCovarianzas(datos_x, datos_y, medias,clases, prob_clases):
+    datos_shape = datos_x.shape
+    total_datos = np.multiply.reduce(datos_shape)
+    covarianzas = np.zeros(shape=(len(clases), datos_shape[3], datos_shape[3]))
+    for i_img in range(datos_shape[0]):
+        for x in range(datos_shape[1]):
+            for y in range(datos_shape[2]):
+                k = datos_y[i_img, x, y]
+                m_temp = datos_x[i_img, x, y]-medias[k]
+                covarianzas[k]+=(m_temp*np.transpose(m_temp))
+    for k, clase in enumerate(clases):
+        covarianzas[k]/=(prob_clases[k]*total_datos)
+    return covarianzas
