@@ -9,6 +9,8 @@ from funciones import obtenerProbAPriori, obtenerMatricesMedias, obtenerMatrices
 path_datos_x = glob.glob('./Dataset/Train/*data.tif')
 #%%
 datos_x  = np.array([np.dstack(np.array(rasterio.open(path).read())) for path in path_datos_x])
+#datos_x = datos_x[:,:,:,0:5]
+datos_x = datos_x/65536.0
 #%%
 # máscaras
 # Value / Interpretation
