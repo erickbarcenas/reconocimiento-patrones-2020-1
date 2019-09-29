@@ -28,6 +28,10 @@ def obtenerMatricesCovarianzas(datos_x, datos_y, medias,clases, prob_clases):
     datos_shape = datos_x.shape
     total_datos = np.multiply.reduce(datos_shape)
     covarianzas = np.zeros(shape=(len(clases), datos_shape[3], datos_shape[3]))
+    # covarianzas = np.zeros(np.matrix(
+    #                 np.zeros(
+    #                     shape=(datos_shape[3], datos_shape[3])))
+    #                     for c in clases])
     for i_img in range(datos_shape[0]):
         for x in range(datos_shape[1]):
             for y in range(datos_shape[2]):
@@ -38,19 +42,20 @@ def obtenerMatricesCovarianzas(datos_x, datos_y, medias,clases, prob_clases):
         covarianzas[k]/=(prob_clases[k]*total_datos)
     return covarianzas
 
-def disc_bayes(x, m, S, Pk):
+def disc_bayes(x, m, SI, detS, Pk):
     temp = np.matrix(x-m)
-    S = np.matrix(S)
-    temp2 = np.matmul(temp, S)
+    SI = np.matrix(SI)
+    temp2 = np.matmul(temp, SI)
     temp3 = np.matmul(temp2, temp.T).item()
-    disc = -(1.0/2.0)*temp3-(1.0/2.0)*np.log(np.linalg.det(S))+np.log(Pk)
+    #print(temp3)
+    disc = -(1.0/2.0)*temp3-(1.0/2.0)*np.log(detS)+np.log(Pk)
     #print(disc)
     return disc.item()
 
 def predecir(datos_x, modelo):
     datos_shape = datos_x.shape
     #datos_x.reshape(datos_shape[0]*datos_shape[1], datos_shape[2])
-    prediccion_y = np.empty(datos_shape).astype(np.uint8)
+    prediccion_y = np.empty_like(datos_x[:,:,0]).astype(np.uint8)
     discr = np.empty(len(modelo['clases'])).astype(np.float64)
     for i in range(datos_shape[0]):
         for j in range(datos_shape[1]):
@@ -58,7 +63,10 @@ def predecir(datos_x, modelo):
                 x=datos_x[i,j]
                 m=modelo['medias'][k]
                 S=modelo['covarianzas'][k]
+                SI=modelo['covs_inv'][k]
+                detS=modelo['det_covs'][k]
                 pk=modelo['prob_a_priori'][k]
-                discr[k] = disc_bayes(x, m, S, pk)
+                discr[k] = disc_bayes(x, m, SI, detS, pk)
             prediccion_y[i,j] = discr.argmax()
+            #print(prediccion_y[i,j])
     return prediccion_y

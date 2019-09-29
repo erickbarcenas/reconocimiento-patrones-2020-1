@@ -10,7 +10,7 @@ path_datos_x = glob.glob('./Dataset/Train/*data.tif')
 #%%
 datos_x  = np.array([np.dstack(np.array(rasterio.open(path).read())) for path in path_datos_x])
 #datos_x = datos_x[:,:,:,0:5]
-datos_x = datos_x/65536.0
+datos_x = datos_x[:,:,:,0:5]/65536.0
 #%%
 # máscaras
 # Value / Interpretation
@@ -43,11 +43,20 @@ medias = obtenerMatricesMedias(datos_x, datos_y, clases, probabilidades)
 covarianzas = obtenerMatricesCovarianzas(datos_x, datos_y, medias, clases, probabilidades)
 
 #%%
+det_covs = np.array([np.linalg.det(covarianzas[k]) for k in range(n_clases)])
+
+#%%
+covs_inv = np.zeros_like(covarianzas)
+for k in range(n_clases):
+    covs_inv[k] = np.linalg.inv(np.matrix(covarianzas[k]))
+#%%
 modelo = {
         'clases' : clases,
         'prob_a_priori' : probabilidades,
         'medias' : medias,
-        'covarianzas' : covarianzas
+        'covarianzas' : covarianzas,
+        'det_covs' : det_covs,
+        'covs_inv' : covs_inv
         }
 
 np.save('./modelo', modelo)
