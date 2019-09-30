@@ -21,7 +21,6 @@ datos_prueba  = np.array([np.dstack(np.array(rasterio.open(path).read())) for pa
 datos_prueba = datos_prueba[:,:,:,0:5]/65536.0
 #%%
 imgs = np.flip(datos_prueba[:,:,:,1:4], 3)
-img_ir = datos_prueba[:,:,:,0]
 #%%
 modelo = np.load('./modelo.npy', allow_pickle=True).item()
 
@@ -30,7 +29,8 @@ pred_y = np.zeros_like(datos_prueba[:,:,:,0]).astype(np.uint8)
 #tqdm.write('Predicción de resultados...')
 for i, datos_x in enumerate(datos_prueba):
     pred_y[i] = predecir(datos_x, modelo)
-
+    
+np.save('./Dataset/test/predicciones', pred_y)
 #%%
 # Value / Interpretation
 # 0    Shadow
@@ -71,9 +71,7 @@ for i, img in enumerate(imgs):
     patches = [ mpatches.Patch(color=nuevos_colores[i], label=clases[i]) for i in range(len(clases)) ]
     plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0. )
     plt.show()
-    
-#%%
-np.save('./Dataset/test/predicciones', pred_y)
+
 #%%
 for i, path in enumerate(path_datos_prueba):
     plt.imsave(path[:-8]+'pred.png', pred_y[i], cmap=custom_cm, vmin=0, vmax=6)

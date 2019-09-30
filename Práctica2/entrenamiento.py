@@ -5,13 +5,16 @@ import numpy as np
 import glob
 import scipy.io
 from funciones import obtenerProbAPriori, obtenerMatricesMedias, obtenerMatricesCovarianzas
-#%%
-path_datos_x = glob.glob('./Dataset/Train/*data.tif')
+
 #%%
 # https://www.usgs.gov/land-resources/nli/landsat/spatial-procedures-automated-removal-cloud-and-shadow-sparcs-validation
+path_datos_x = glob.glob('./Dataset/Train/*data.tif')
 datos_x  = np.array([np.dstack(np.array(rasterio.open(path).read())) for path in path_datos_x])
-#datos_x = datos_x[:,:,:,0:5]
 datos_x = datos_x[:,:,:,0:5]/65536.0
+
+#%%
+path_datos_y = glob.glob('./Dataset/Train/*mask.mat')
+datos_y = np.array([scipy.io.loadmat(path)['img'] for path in path_datos_y])
 #%%
 # máscaras
 # Value / Interpretation
@@ -22,8 +25,6 @@ datos_x = datos_x[:,:,:,0:5]/65536.0
 # 4    Land
 # 5    Cloud
 # 6    Flooded
-path_datos_y = glob.glob('./Dataset/Train/*mask.mat')
-datos_y = np.array([scipy.io.loadmat(path)['img'] for path in path_datos_y])
 clases = {
     0 : 'Sombra',
     1 : 'Sombra sobre agua',
