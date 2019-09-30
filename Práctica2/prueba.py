@@ -69,7 +69,9 @@ for i, img in enumerate(imgs):
     axs[0].set_title('Imagen %d' %i)
     axs[1].set_title('Resultados')
     patches = [ mpatches.Patch(color=nuevos_colores[i], label=clases[i]) for i in range(len(clases)) ]
-    plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0. )
+    plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), 
+                        loc=2, borderaxespad=0., 
+                        facecolor = '010001')
     plt.show()
 
 #%%

@@ -88,10 +88,24 @@ for i, img in enumerate(imgs_train):
                         loc=2, borderaxespad=0., 
                         facecolor = '010001')
     plt.show()
-#%%
-for img in imgs_test:
-    fig = plt.figure()
-    plt.imshow(img)
-    plt.axis('off')
-    plt.title('Imágen de prueba %i' % i)
+##%%
+#for img in imgs_test:
+#    fig = plt.figure()
+#    plt.imshow(img)
+#    plt.axis('off')
+#    plt.title('Imágen de prueba %i' % i)
+#    plt.show()
+#%%    
+for i, img in enumerate(imgs_test):
+    fig, axs = plt.subplots(1,2)
+    axs[0].imshow(img)
+    imsh = axs[1].imshow(mask_test[i], cmap=custom_cm, vmin=0, vmax=6)
+    axs[0].axis('off')
+    axs[1].axis('off')
+    axs[0].set_title('Imagen de prueba %d' % i)
+    axs[1].set_title('Resultado')
+    patches = [ mpatches.Patch(color=nuevos_colores[i], label=clases[i]) for i in range(len(clases)) ]
+    legend = plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), 
+                        loc=2, borderaxespad=0., 
+                        facecolor = '010001')
     plt.show()
