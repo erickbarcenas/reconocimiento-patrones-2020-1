@@ -26,7 +26,7 @@ path_datos_prueba = glob.glob('./Dataset/Test/*data.tif')
 datos_prueba  = np.array([np.dstack(np.array(rasterio.open(path).read())) for path in path_datos_prueba])
 datos_prueba = datos_prueba[:,:,:,1:4]#/65536.0
 
-path_datos_y_test = glob.glob('./Dataset/Test/*mask.png')
+path_datos_y_test = glob.glob('./Dataset/Test/*pred.png')
 mask_test = np.array([plt.imread(path) for path in path_datos_y_test])
 #%%
 imgs_train = np.flip(datos_x, 3)
@@ -86,7 +86,7 @@ for i, img in enumerate(imgs_train):
     patches = [ mpatches.Patch(color=nuevos_colores[i], label=clases[i]) for i in range(len(clases)) ]
     legend = plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), 
                         loc=2, borderaxespad=0., 
-                        facecolor = '010001')
+                        facecolor = [0.1,0.1,0.1,1.])
     plt.show()
 ##%%
 #for img in imgs_test:
@@ -107,5 +107,5 @@ for i, img in enumerate(imgs_test):
     patches = [ mpatches.Patch(color=nuevos_colores[i], label=clases[i]) for i in range(len(clases)) ]
     legend = plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), 
                         loc=2, borderaxespad=0., 
-                        facecolor = '010001')
+                        facecolor = [0.1,0.1,0.1,1.])
     plt.show()
